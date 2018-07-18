@@ -325,6 +325,15 @@ def paragraphwoman(seed=0,chars=None):
         paragraph.append(sentencewoman(seed,0,c))
     return ' '.join(paragraph)
 
+def chapterwoman(seed=0,chars=None,chapnum=1):
+    chapter = []
+    title = ' '.join(['Chapter {}: '.format(chapnum),random.choice(['the','a']),random.choice(adjectives),random.choice(nouns),'\n\n'])
+    chapter.append(title)
+    for i in range(random.randint(1,20)):
+        seed += 1
+        chapter.append('\n\n\t'+paragraphwoman(seed,chars))
+    return ' '.join(chapter)
+
 def bookwoman(seed=0,chapters=10,characters=4):
     if seed == 0: seed = random.randint(1,10000000)
     eseed = seed
@@ -338,7 +347,7 @@ def bookwoman(seed=0,chapters=10,characters=4):
     book = []
     for j in range(chapters):
         seed += 1
-        book.append(paragraphwoman(seed,random.choice([characterlist,characterlist,None])))
+        book.append('\n\n\n'+chapterwoman(seed,random.choice([characterlist,characterlist,characterlist,characterlist,None]),j+1))
     title = characterlist[0][0] + "'s " + random.choice(adjectives) + ' ' + random.choice(nouns)
     file = open('{}.txt'.format(title.replace('/','')),'w+')
     file.write(title + '\n\n' + '\n\t'.join(book) + ' Thank You.')
